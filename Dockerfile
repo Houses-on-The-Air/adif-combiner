@@ -1,12 +1,10 @@
-# Stage 1: Build
-FROM python:3.10 AS builder
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir --prefix="/install" -r requirements.txt
+FROM python:3.13
 
-# Stage 2: Runtime
-FROM python:3.10-slim
-WORKDIR /app
-COPY --from=builder /install /usr/local
+# Create a user and switch to it
+RUN useradd -m hota
+USER hota
+
+HEALTHCHECK NONE
 COPY . .
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+RUN pip install -r requirements.txt
+CMD ["python", "main.py", ${ADIF_DIR}]
