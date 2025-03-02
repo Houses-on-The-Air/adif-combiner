@@ -15,7 +15,8 @@ jobs:
             - uses: actions/setup-node@v4
               with:
                 node-version: '16'
-            - run: npm install -r requirements.txt
+            - run: pip install -r requirements.txt
+            - run: npm install
             - name: Create SBOM with CycloneDX
               uses: CycloneDX/gh-node-module-generatebom@v1
               with:
